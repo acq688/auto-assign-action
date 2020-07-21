@@ -19,7 +19,8 @@ export class PullRequest {
       pull_number,
       reviewers,
     })
-    core.debug(JSON.stringify(result))
+    core.info(JSON.stringify(result))
+    core.info("I am here")
   }
 
   async addAssignees(assignees: string[]): Promise<void> {
@@ -30,7 +31,7 @@ export class PullRequest {
       issue_number,
       assignees,
     })
-    core.debug(JSON.stringify(result))
+    core.info(JSON.stringify(result))
   }
 
   hasAnyLabel(labels: string[]): boolean {
