@@ -99,6 +99,7 @@ export async function handlePullRequest(
 
       if (reviewers.length > 0) {
         await pr.addReviewers(reviewers)
+        core.info(`This is a test loc 102`)
         core.info(`Added reviewers to PR #${number}: ${reviewers.join(', ')}`)
       }
     } catch (error) {
