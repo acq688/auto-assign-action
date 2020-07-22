@@ -35,9 +35,18 @@ reviewers:
   - reviewerB
   - reviewerC
 
+teamReviewers:
+  - YourOrg/teamA
+  - YourOrg/teamB
+  - YourOrg/teamC
+
 # A number of reviewers added to the pull request
 # Set 0 to add all the reviewers (default: 0)
 numberOfReviewers: 0
+
+# A number of team reviewers added to the pull request
+# Set 0 to add all the team reviewers (default: 0)
+numberOfTeamReviewers: 0
 
 # A list of assignees, overrides reviewers if set
 # assignees:

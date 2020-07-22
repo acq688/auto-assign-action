@@ -3,9 +3,17 @@ import * as github from '@actions/github'
 import * as yaml from 'js-yaml'
 import { Config } from './handler'
 
-export function chooseReviewers(owner: string, config: Config): string[] {
-  const { useReviewGroups, reviewGroups, numberOfReviewers, reviewers } = config
+export function chooseReviewers(owner: string, config: Config): string[][] {
+  const {
+    useReviewGroups,
+    reviewGroups,
+    numberOfReviewers,
+    numberOfTeamReviewers,
+    reviewers,
+    teamReviewers,
+  } = config
   let chosenReviewers: string[] = []
+  let chosenTeamReviewers: string[] = []
   const useGroups: boolean =
     useReviewGroups && Object.keys(reviewGroups).length > 0
 
@@ -18,8 +26,9 @@ export function chooseReviewers(owner: string, config: Config): string[] {
   } else {
     chosenReviewers = chooseUsers(reviewers, numberOfReviewers, owner)
   }
+  chosenTeamReviewers = chooseUsers(teamReviewers, numberOfTeamReviewers)
 
-  return chosenReviewers
+  return [chosenReviewers, chosenTeamReviewers]
 }
 
 export function chooseAssignees(owner: string, config: Config): string[] {

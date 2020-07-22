@@ -11,9 +11,14 @@ export class PullRequest {
     this.context = context
   }
 
-  async addReviewers(reviewers: string[]): Promise<void> {
+  async addReviewers(
+    reviewers: string[],
+    team_reviewers: string[]
+  ): Promise<void> {
     const { owner, repo, number: pull_number } = this.context.issue
-    const team_reviewers = reviewers
+    console.log(`Reviewers:${reviewers}`)
+    console.log(`Team Reviewers:${team_reviewers}`)
+
     const result = await this.client.pulls.createReviewRequest({
       owner,
       repo,
