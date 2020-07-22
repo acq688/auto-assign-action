@@ -101,6 +101,9 @@ export async function handlePullRequest(
         await pr.addReviewers(reviewers)
         core.debug(`This is a test loc 102`)
         core.debug("This is another console.log")
+        core.info("This is a test loc 102")
+        core.info(`This is another test loc 102`)
+        console.log("This is a console.log")
         core.info(`Added reviewers to PR #${number}: ${reviewers.join(', ')}`)
       }
     } catch (error) {
