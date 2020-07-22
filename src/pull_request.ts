@@ -14,11 +14,13 @@ export class PullRequest {
   async addReviewers(reviewers: string[]): Promise<void> {
     core.info("Entered addReviewers")
     const { owner, repo, number: pull_number } = this.context.issue
+    const team_reviewers = reviewers
     const result = await this.client.pulls.createReviewRequest({
       owner,
       repo,
       pull_number,
       reviewers,
+      team_reviewers,
     })
     core.info(JSON.stringify(result))
     core.info("I am here")
