@@ -12,8 +12,8 @@ export class PullRequest {
   }
 
   async addReviewers(reviewers: string[]): Promise<void> {
-    core.info("Entered addReviewers")
-    core.debug("Trying a debug statement")
+    core.info('Entered addReviewers')
+    core.debug('Trying a debug statement')
     core.debug(`Trying a debug statement in tics`)
     const { owner, repo, number: pull_number } = this.context.issue
     const team_reviewers = reviewers
@@ -25,7 +25,7 @@ export class PullRequest {
       team_reviewers,
     })
     core.info(JSON.stringify(result))
-    core.info("I am here")
+    core.info('I am here')
   }
 
   async addAssignees(assignees: string[]): Promise<void> {
