@@ -22104,15 +22104,13 @@ function handlePullRequest(client, context, config) {
         }
         if (addReviewers) {
             try {
-                const reviewers = utils.chooseReviewers(owner, config);
-                if (reviewers.length > 0) {
-                    yield pr.addReviewers(reviewers);
-                    core.debug(`This is a test loc 102`);
-                    core.debug("This is another console.log");
-                    core.info("This is a test loc 102");
-                    core.info(`This is another test loc 102`);
-                    console.log("This is a console.log");
+                const reviewersArray = utils.chooseReviewers(owner, config);
+                const reviewers = reviewersArray[0];
+                const teamReviewers = reviewersArray[1];
+                if (reviewers.length > 0 || teamReviewers.length > 0) {
+                    yield pr.addReviewers(reviewers, teamReviewers);
                     core.info(`Added reviewers to PR #${number}: ${reviewers.join(', ')}`);
+                    core.info(`Added team reviewers to PR #${number}: ${teamReviewers.join(', ')}`);
                 }
             }
             catch (error) {
@@ -22736,8 +22734,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_1 = __importDefault(__webpack_require__(86));
 const yaml = __importStar(__webpack_require__(354));
 function chooseReviewers(owner, config) {
-    const { useReviewGroups, reviewGroups, numberOfReviewers, reviewers } = config;
+    const { useReviewGroups, reviewGroups, numberOfReviewers, numberOfTeamReviewers, reviewers, teamReviewers, } = config;
     let chosenReviewers = [];
+    let chosenTeamReviewers = [];
     const useGroups = useReviewGroups && Object.keys(reviewGroups).length > 0;
     if (useGroups) {
         chosenReviewers = chooseUsersFromGroups(owner, reviewGroups, numberOfReviewers);
@@ -22745,7 +22744,8 @@ function chooseReviewers(owner, config) {
     else {
         chosenReviewers = chooseUsers(reviewers, numberOfReviewers, owner);
     }
-    return chosenReviewers;
+    chosenTeamReviewers = chooseUsers(teamReviewers, numberOfTeamReviewers);
+    return [chosenReviewers, chosenTeamReviewers];
 }
 exports.chooseReviewers = chooseReviewers;
 function chooseAssignees(owner, config) {
@@ -24135,13 +24135,11 @@ class PullRequest {
         this.client = client;
         this.context = context;
     }
-    addReviewers(reviewers) {
+    addReviewers(reviewers, team_reviewers) {
         return __awaiter(this, void 0, void 0, function* () {
-            core.info("Entered addReviewers");
-            core.debug("Trying a debug statement");
-            core.debug(`Trying a debug statement in tics`);
             const { owner, repo, number: pull_number } = this.context.issue;
-            const team_reviewers = reviewers;
+            console.log(`Reviewers:${reviewers}`);
+            console.log(`Team Reviewers:${team_reviewers}`);
             const result = yield this.client.pulls.createReviewRequest({
                 owner,
                 repo,
@@ -24150,7 +24148,6 @@ class PullRequest {
                 team_reviewers,
             });
             core.info(JSON.stringify(result));
-            core.info("I am here");
         });
     }
     addAssignees(assignees) {
